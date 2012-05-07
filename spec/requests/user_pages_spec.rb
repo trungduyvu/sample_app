@@ -20,6 +20,11 @@ describe "UserPages" do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
       end
+
+      it "should display error message" do
+        click_button submit
+        should have_content('error')
+      end
     end
 
     describe "With valid information" do
@@ -34,6 +39,10 @@ describe "UserPages" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
 
+      it "should display welcome message" do
+        click_button submit
+        should have_selector('div.alert.alert-success', text: 'Welcome to the Sample App!')
+      end
     end
   end
 end
