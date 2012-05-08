@@ -39,9 +39,16 @@ describe "UserPages" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
 
-      it "should display welcome message" do
-        click_button submit
-        should have_selector('div.alert.alert-success', text: 'Welcome to the Sample App!')
+      describe "After saving the user" do
+        before { click_button submit }
+
+        it { should have_selector('div.alert.alert-success', text: 'Welcome to the Sample App!') }
+        it { should have_link('Sign out') }
+
+        describe "followed by signout" do
+          before { click_link "Sign out" }
+          it { should have_link('Sign in') }
+        end
       end
     end
   end
